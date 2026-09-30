@@ -1,11 +1,14 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 
 // Allow frontend websites to read this public API.
 app.use(cors());
 // Middleware to parse JSON requests
 app.use(express.json());
+// Serve images locally; Vercel serves the public folder directly.
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/program-benefits', (req, res) => {
     res.status(200).json({
@@ -44,8 +47,39 @@ app.get('/api/program-benefits', (req, res) => {
 })
 })
 
-const PORT = process.env.PORT || 3001;
+app.get('/api/timeline', (req, res) => {
+    res.status(200).json({
+        timeline: [
+            {
+                id: 'applications-open',
+                title: 'Applications Open',
+                date: '2nd of June, 2025',
+                imageUrl: '/images/applicationOpen.svg'
+            },
+            {
+                id: 'applications-close',
+                title: 'Applications Close',
+                date: '15th of June, 2025',
+                imageUrl: '/images/Application_close.png'
+            },
+            {
+                id: 'selection-interviews',
+                title: 'Selection Interviews',
+                date: '16th of June - 22nd of July, 2025',
+                imageUrl: '/images/selection%20interview.svg'
+            },
+            {
+                id: 'program-starts',
+                title: 'Program Starts',
+                date: 'August 2025',
+                imageUrl: '/images/program_start.png'
+            }
+        ]
+    });
+});
 
+const PORT = process.env.PORT || 3001;
+// The port that the deployed render server will recieve
 app.listen(PORT, '0.0.0.0', (error) => {
     if (error) {
         console.error('Failed to start server:', error);

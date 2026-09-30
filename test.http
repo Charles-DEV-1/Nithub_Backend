@@ -1,2 +1,8 @@
 GET  http://localhost:3001/api/program-benefits
 Content-Type: application/json
+
+### Program timeline
+GET http://localhost:3001/api/timeline
+
+### Timeline image
+GET http://localhost:3001/images/selection%20interview.svg
